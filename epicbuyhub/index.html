@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EpicBuyHub — Modern Deals</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <!-- Use Inter for UI and Poppins for display -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <script>
+            // initialize theme early to avoid flash
+            (function(){
+                try{
+                    const saved = localStorage.getItem('theme');
+                    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    if (saved === 'dark' || (!saved && prefersDark)) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }catch(e){/* ignore */}
+            })();
+        </script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://kit.fontawesome.com/f30fac2c61.js" crossorigin="anonymous"></script>
+</head>
+<body class="site-bg">
+    <div class="container min-h-screen font-sans">
+        <nav class="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-4">
+                <button id="menu-btn" class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                        <div class="logo shrink-0">
+                            <a href="#" class="brand-link" aria-label="EpicBuyHub Home">
+                                <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight" style="background:linear-gradient(90deg,var(--color-primary),var(--color-accent));-webkit-background-clip:text;background-clip:text;color:transparent;">EpicBuyHub</h1>
+                                <div class="text-xs font-light text-neutral-700 dark:text-neutral-200">Modern deals, everyday value</div>
+                            </a>
+                        </div>
+                <div class="flex-1 flex justify-center">
+                    <div class="w-full max-w-xl">
+                        <label for="q" class="sr-only">Search</label>
+                        <div class="relative">
+                            <input id="q" type="text" placeholder="Search for products, brands and more" class="w-full rounded-full border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 pl-10 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-slate-800 dark:text-slate-100">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <button class="hidden sm:inline-flex absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-primary px-4 py-1.5 text-white text-sm font-medium hover:brightness-110">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ml-auto flex items-center gap-2">
+                    <button id="theme-toggle" class="theme-toggle-btn" type="button">Dark</button>
+                    <button id="cart-btn" class="relative px-3 py-1 rounded-md text-sm bg-gray-100 text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 inline-flex items-center justify-center rounded-full bg-rose-600 text-white text-[10px] w-5 h-5">0</span>
+                    </button>
+                    <button id="login" class="sm:inline-flex items-center justify-center rounded-md bg-primary px-3 py-1.5 text-white text-sm font-medium hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900" aria-controls="login-panel" aria-expanded="false">
+                        <i class="fa-regular fa-user mr-1"></i> Log In
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="lg:hidden border-t border-gray-200 dark:border-slate-800">
+                <div class="px-4 py-3 space-y-2">
+                    <a class="nav-link block text-sm text-slate-900 dark:text-slate-100 hover:text-primary" href="#home">Home</a>
+                    <a class="nav-link block text-sm text-slate-900 dark:text-slate-100 hover:text-primary" href="#product">Products</a>
+                    <a class="nav-link block text-sm text-slate-900 dark:text-slate-100 hover:text-primary" href="#review">Reviews</a>
+                    <a class="nav-link block text-sm text-slate-900 dark:text-slate-100 hover:text-primary" href="#contact">Contact</a>
+                    <a class="nav-link block text-sm text-slate-900 dark:text-slate-100 hover:text-primary" href="#footer">About</a>
+                </div>
+            </div>
+        </nav>
+        <!--login-->
+    <div id="login-panel" class="loginPage hidden fixed top-20 right-4 z-50 w-72 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-xl" aria-hidden="true">
+            <div class="text-sm font-semibold mb-2">Sign in</div>
+            <input type="text" placeholder="Enter Email" id="email" class="w-full mb-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+            <input type="password" placeholder="Enter Pass" id="pass" class="w-full mb-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+            <button id="loged" class="w-full inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-white text-sm font-medium hover:brightness-110">Log In</button>
+        </div>
+        <!--main content -->
+        <main>
+            <section id="home" class="section-wrapper gradient text-center">
+                <div class="max-w-3xl mx-auto">
+                    <h1 class="hero-title animate-fade-slide-up">Effortless Style, Everyday <span class="accent">Smiles</span></h1>
+                    <span class="section-title-underline"></span>
+                    <p class="hero-sub section-subtitle animate-fade-slide-up">Style with Savings: Up to 30% Off — <span class="accent">Unleash</span> the Deals!</p>
+                    <a href="#product" class="shop-btn btn px-8 py-3 text-lg">Shop Now</a>
+                    <a href="#best-deals" class="shop-btn btn px-8 py-3 text-lg ml-3">Best Deals</a>
+                </div>
+            </section>
+          <!-- MEN'S SECTION -->
+<section id="men-products" class="section-wrapper men-bg product-section">
+  <div class="text-center mb-8">
+    <h2 class="men-section-title animate-fade-slide-up">Trending <span class="accent">Men T-Shirts</span></h2>
+    <span class="men-section-underline"></span>
+  </div>
+  <div class="mx-auto max-w-6xl">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center">
+      <!-- Product Card 1 -->
+      <div class="product-card bg-white dark:bg-slate-800 rounded-xl shadow-lg transition-all duration-300 flex flex-col items-center w-full max-w-md group hover:shadow-2xl">
+        <div class="card-media w-full h-[340px] flex items-center justify-center bg-gray-50 dark:bg-slate-800 overflow-hidden rounded-t-xl">
+          <img class="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=420&q=80" alt="Classic Blue Tee">
+        </div>
+        <div class="card-body flex flex-col flex-1 w-full px-8 py-6 text-center">
+          <h3 class="product-title font-poppins font-semibold text-2xl text-slate-900 dark:text-white mb-2">Classic Blue Tee</h3>
+          <div class="card-meta flex items-center justify-center gap-2 mb-2">
+            <span class="price text-blue-600 font-bold text-xl">$12.99</span>
+            <span class="rating flex text-yellow-400 text-lg">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </span>
+          </div>
+          <button class="add-to-cart mt-4 w-full bg-blue-600 text-white rounded-full py-3 font-semibold shadow hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+      </div>
+      <!-- Product Card 2 -->
+      <div class="product-card bg-white dark:bg-slate-800 rounded-xl shadow-lg transition-all duration-300 flex flex-col items-center w-full max-w-md group hover:shadow-2xl">
+        <div class="card-media w-full h-[340px] flex items-center justify-center bg-gray-50 dark:bg-slate-800 overflow-hidden rounded-t-xl">
+          <img class="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://cdnb.lystit.com/photos/asos/613a8983/asos-brown-Oversized-T-shirt-With-Half-Sleeve-In-Scuba-Fabric-With-Pocket-In-Beige.jpeg" alt="Oversized Beige Tee">
+        </div>
+        <div class="card-body flex flex-col flex-1 w-full px-8 py-6 text-center">
+          <h3 class="product-title font-poppins font-semibold text-2xl text-slate-900 dark:text-white mb-2">Oversized Beige Tee</h3>
+          <div class="card-meta flex items-center justify-center gap-2 mb-2">
+            <span class="price text-blue-600 font-bold text-xl">$16.00</span>
+            <span class="rating flex text-yellow-400 text-lg">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </span>
+          </div>
+          <button class="add-to-cart mt-4 w-full bg-blue-600 text-white rounded-full py-3 font-semibold shadow hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+      </div>
+      <!-- Product Card 3 -->
+      <div class="product-card bg-white dark:bg-slate-800 rounded-xl shadow-lg transition-all duration-300 flex flex-col items-center w-full max-w-md group hover:shadow-2xl">
+        <div class="card-media w-full h-[340px] flex items-center justify-center bg-gray-50 dark:bg-slate-800 overflow-hidden rounded-t-xl">
+          <img class="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://th.bing.com/th/id/OIP.l0bA3BdLj98W82OHQz9JmgHaJo?rs=1&pid=ImgDetMain" alt="Trendy Blue Tee">
+        </div>
+        <div class="card-body flex flex-col flex-1 w-full px-8 py-6 text-center">
+          <h3 class="product-title font-poppins font-semibold text-2xl text-slate-900 dark:text-white mb-2">Trendy Blue Tee</h3>
+          <div class="card-meta flex items-center justify-center gap-2 mb-2">
+            <span class="price text-blue-600 font-bold text-xl">$11.99</span>
+            <span class="rating flex text-yellow-400 text-lg">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </span>
+          </div>
+          <button class="add-to-cart mt-4 w-full bg-blue-600 text-white rounded-full py-3 font-semibold shadow hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WOMEN'S SECTION -->
+<section id="women-products" class="section-wrapper women-bg product-section">
+  <div class="text-center mb-8">
+    <h2 class="women-section-title animate-fade-slide-up">Trending <span class="accent">Women T-Shirts</span></h2>
+    <span class="women-section-underline"></span>
+  </div>
+  <div class="mx-auto max-w-6xl">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center">
+      <!-- Product Card 1 -->
+      <div class="product-card bg-white dark:bg-slate-800 rounded-xl shadow-lg transition-all duration-300 flex flex-col items-center w-full max-w-md group hover:shadow-2xl">
+        <div class="card-media w-full h-[340px] flex items-center justify-center bg-gray-50 dark:bg-slate-800 overflow-hidden rounded-t-xl">
+          <img class="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://i.pinimg.com/originals/1f/58/aa/1f58aa5884482992a89742de99fb5687.jpg" alt="Pastel Pink Graphic Tee">
+        </div>
+        <div class="card-body flex flex-col flex-1 w-full px-8 py-6 text-center">
+          <h3 class="product-title font-poppins font-semibold text-2xl text-slate-900 dark:text-white mb-2">Pastel Pink Graphic Tee</h3>
+          <div class="card-meta flex items-center justify-center gap-2 mb-2">
+            <span class="price text-blue-600 font-bold text-xl">$13.49</span>
+            <span class="rating flex text-yellow-400 text-lg">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </span>
+          </div>
+          <button class="add-to-cart mt-4 w-full bg-blue-600 text-white rounded-full py-3 font-semibold shadow hover:bg-blue-700 transition"
+            data-title="Pastel Pink Graphic Tee" data-price="13.49"
+            data-image="https://i.pinimg.com/originals/1f/58/aa/1f58aa5884482992a89742de99fb5687.jpg">Add to Cart</button>
+        </div>
+      </div>
+      <!-- Product Card 2 -->
+      <div class="product-card bg-white dark:bg-slate-800 rounded-xl shadow-lg transition-all duration-300 flex flex-col items-center w-full max-w-md group hover:shadow-2xl">
+        <div class="card-media w-full h-[340px] flex items-center justify-center bg-gray-50 dark:bg-slate-800 overflow-hidden rounded-t-xl">
+          <img class="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://th.bing.com/th/id/OIP.1HmbDb928NW_fd4mc-cE8AHaHP?rs=1&pid=ImgDetMain" alt="Minimalist Cream Tee">
+        </div>
+        <div class="card-body flex flex-col flex-1 w-full px-8 py-6 text-center">
+          <h3 class="product-title font-poppins font-semibold text-2xl text-slate-900 dark:text-white mb-2">Minimalist Cream Tee</h3>
+          <div class="card-meta flex items-center justify-center gap-2 mb-2">
+            <span class="price text-blue-600 font-bold text-xl">$17.20</span>
+            <span class="rating flex text-yellow-400 text-lg">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </span>
+          </div>
+          <button class="add-to-cart mt-4 w-full bg-blue-600 text-white rounded-full py-3 font-semibold shadow hover:bg-blue-700 transition"
+            data-title="Minimalist Cream Tee" data-price="17.20"
+            data-image="https://th.bing.com/th/id/OIP.1HmbDb928NW_fd4mc-cE8AHaHP?rs=1&pid=ImgDetMain">Add to Cart</button>
+        </div>
+      </div>
+      <!-- Product Card 3 -->
+      <div class="product-card bg-white dark:bg-slate-800 rounded-xl shadow-lg transition-all duration-300 flex flex-col items-center w-full max-w-md group hover:shadow-2xl">
+        <div class="card-media w-full h-[340px] flex items-center justify-center bg-gray-50 dark:bg-slate-800 overflow-hidden rounded-t-xl">
+          <img class="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://images-na.ssl-images-amazon.com/images/I/71cEkbs16iL._AC_UY879_.jpg" alt="Urban Graphic Tee">
+        </div>
+        <div class="card-body flex flex-col flex-1 w-full px-8 py-6 text-center">
+          <h3 class="product-title font-poppins font-semibold text-2xl text-slate-900 dark:text-white mb-2">Urban Graphic Tee</h3>
+          <div class="card-meta flex items-center justify-center gap-2 mb-2">
+            <span class="price text-blue-600 font-bold text-xl">$17.00</span>
+            <span class="rating flex text-yellow-400 text-lg">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </span>
+          </div>
+          <button class="add-to-cart mt-4 w-full bg-blue-600 text-white rounded-full py-3 font-semibold shadow hover:bg-blue-700 transition"
+            data-title="Urban Graphic Tee" data-price="17.00"
+            data-image="https://images-na.ssl-images-amazon.com/images/I/71cEkbs16iL._AC_UY879_.jpg">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEST DEALS SECTION -->
+<section id="best-deals" class="section-wrapper alt">
+  <div class="text-center mb-8">
+    <h2 class="section-title animate-fade-slide-up">Best <span class="accent">Deals</span></h2>
+    <span class="section-title-underline"></span>
+    <p class="section-subtitle animate-fade-slide-up">Handpicked offers just for you</p>
+  </div>
+  <div class="mx-auto max-w-6xl">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center">
+      <!-- Product Card 1 -->
+      <div class="product-card bg-white dark:bg-slate-800 rounded-xl shadow-lg transition-all duration-300 flex flex-col items-center w-full max-w-md group hover:shadow-2xl">
+        <div class="card-media w-full h-[340px] flex items-center justify-center bg-gray-50 dark:bg-slate-800 overflow-hidden rounded-t-xl">
+          <img class="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://egoss.in/cdn/shop/files/DSC_7785b_3c14d551-e050-4178-92ba-b99090f07e3f.jpg?v=1753876971&width=800" alt="Trending Shoes">
+        </div>
+        <div class="card-body flex flex-col flex-1 w-full px-8 py-6 text-center">
+          <h3 class="product-title font-poppins font-semibold text-2xl text-slate-900 dark:text-white mb-2">Trending Shoes</h3>
+          <div class="card-meta flex items-center justify-center gap-2 mb-2">
+            <span class="price text-blue-600 font-bold text-xl">$4.30</span>
+            <span class="rating flex text-yellow-400 text-lg">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </span>
+          </div>
+          <button class="add-to-cart mt-4 w-full bg-blue-600 text-white rounded-full py-3 font-semibold shadow hover:bg-blue-700 transition"
+            data-title="Trending Shoes" data-price="4.3"
+            data-image="https://egoss.in/cdn/shop/files/DSC_7785b_3c14d551-e050-4178-92ba-b99090f07e3f.jpg?v=1753876971&width=800">Add to Cart</button>
+        </div>
+      </div>
+      <!-- Product Card 2 -->
+      <div class="product-card bg-white dark:bg-slate-800 rounded-xl shadow-lg transition-all duration-300 flex flex-col items-center w-full max-w-md group hover:shadow-2xl">
+        <div class="card-media w-full h-[340px] flex items-center justify-center bg-gray-50 dark:bg-slate-800 overflow-hidden rounded-t-xl">
+          <img class="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://th.bing.com/th/id/OIP.2RCHpZX0_K44r7JIulrFYwHaHa?w=800&h=800&c=7&r=0&o=5&pid=1.7" alt="Trending Heels">
+        </div>
+        <div class="card-body flex flex-col flex-1 w-full px-8 py-6 text-center">
+          <h3 class="product-title font-poppins font-semibold text-2xl text-slate-900 dark:text-white mb-2">Trending Heels</h3>
+          <div class="card-meta flex items-center justify-center gap-2 mb-2">
+            <span class="price text-blue-600 font-bold text-xl">$5.00</span>
+            <span class="rating flex text-yellow-400 text-lg">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </span>
+          </div>
+          <button class="add-to-cart mt-4 w-full bg-blue-600 text-white rounded-full py-3 font-semibold shadow hover:bg-blue-700 transition"
+            data-title="Trending Heels" data-price="5"
+            data-image="https://th.bing.com/th/id/OIP.2RCHpZX0_K44r7JIulrFYwHaHa?w=800&h=800&c=7&r=0&o=5&pid=1.7">Add to Cart</button>
+        </div>
+      </div>
+      <!-- Product Card 3 -->
+      <div class="product-card bg-white dark:bg-slate-800 rounded-xl shadow-lg transition-all duration-300 flex flex-col items-center w-full max-w-md group hover:shadow-2xl">
+        <div class="card-media w-full h-[340px] flex items-center justify-center bg-gray-50 dark:bg-slate-800 overflow-hidden rounded-t-xl">
+          <img class="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105" src="https://images.asos-media.com/products/asos-design-kim-embellished-heeled-over-the-knee-boots-in-black/202335269-1-blacksatin" alt="Trending Boots">
+        </div>
+        <div class="card-body flex flex-col flex-1 w-full px-8 py-6 text-center">
+          <h3 class="product-title font-poppins font-semibold text-2xl text-slate-900 dark:text-white mb-2">Trending Boots</h3>
+          <div class="card-meta flex items-center justify-center gap-2 mb-2">
+            <span class="price text-blue-600 font-bold text-xl">$10.00</span>
+            <span class="rating flex text-yellow-400 text-lg">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+            </span>
+          </div>
+          <button class="add-to-cart mt-4 w-full bg-blue-600 text-white rounded-full py-3 font-semibold shadow hover:bg-blue-700 transition"
+            data-title="Trending Boots" data-price="10"
+            data-image="https://images.asos-media.com/products/asos-design-kim-embellished-heeled-over-the-knee-boots-in-black/202335269-1-blacksatin">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+        <!-- CTA Section -->
+        <section class="section-wrapper gradient">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="rounded-2xl p-10 sm:p-14 bg-gradient-to-r from-primary via-blue-600 to-accent text-white shadow-lg">
+                    <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
+                        <div class="flex-1 text-center sm:text-left">
+                            <h3 class="text-2xl sm:text-3xl font-bold">Ready for the Best Deals?</h3>
+                            <p class="mt-2 text-white/90">Discover curated picks, fresh drops, and limited-time offers.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#product" class="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-primary to-accent text-white px-6 py-3 font-semibold shadow hover:scale-[1.02] hover:shadow-md active:scale-100 transition">Shop Now</a>
+                            <a href="#review" class="inline-flex items-center justify-center rounded-lg bg-black/20 text-white px-6 py-3 font-semibold shadow hover:bg-black/30 transition">Best Deals</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Drawer -->
+        <div id="cart-drawer" class="fixed top-0 right-0 h-full w-80 bg-white dark:bg-slate-800 shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-slate-700">
+                <h2 class="text-lg font-semibold">Your Cart</h2>
+                <button id="cart-close" class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
+            <div class="border-t border-gray-200 dark:border-slate-700 p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-sm text-gray-600 dark:text-slate-300">Subtotal</span>
+                    <span id="cart-total" class="text-base font-semibold">$0.00</span>
+                </div>
+                <button class="w-full rounded-lg bg-rose-600 px-4 py-2 text-white text-sm font-medium hover:bg-rose-700">Checkout</button>
+            </div>
+        </div>
+        <section id="review" class="section-wrapper reviews-bg">
+            <div class="text-center mb-6">
+                <h2 class="section-title animate-fade-slide-up">Customer <span class="accent">Reviews</span></h2>
+                <span class="section-title-underline"></span>
+            </div>
+            <div class="review-grid">
+                <div class="review-card">
+                    <img class="avatar" src="https://thumbs.dreamstime.com/b/front-view-portrait-young-man-real-people-35970068.jpg" alt="Alex Carter">
+                    <div class="review-meta">
+                        <div class="review-name">Alex Carter</div>
+                        <div class="review-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <div class="review-comment">Great quality and quick delivery. Highly recommend!</div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <img class="avatar" src="https://s-media-cache-ak0.pinimg.com/736x/89/5b/c9/895bc908761b0c3f040f33371a95411f.jpg" alt="Priya N.">
+                    <div class="review-meta">
+                        <div class="review-name">Priya N.</div>
+                        <div class="review-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <div class="review-comment">Loved the range of products. Smooth checkout and the items look amazing.</div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <img class="avatar" src="https://th.bing.com/th/id/OIP.xdJXdL4FeHiEu5Cd5tUWwgAAAA?rs=1&pid=ImgDetMain" alt="Jordan Lee">
+                    <div class="review-meta">
+                        <div class="review-name">Jordan Lee</div>
+                        <div class="review-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <div class="review-comment">Excellent service and awesome prices. Will shop here again.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+      <section id="contact" class="section-wrapper contact-bg">
+    <div class="text-center mb-6">
+        <h2 class="section-title animate-fade-slide-up">Contact <span class="accent">Us</span></h2>
+        <span class="section-title-underline"></span>
+    </div>
+    <div class="flex justify-center">
+        <form class="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 flex flex-col gap-4">
+            <input
+                type="text"
+                placeholder="Name"
+                class="rounded-lg border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 px-4 py-3 text-base text-gray-800 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
+            >
+            <input
+                type="email"
+                placeholder="Email"
+                class="rounded-lg border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 px-4 py-3 text-base text-gray-800 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
+            >
+            <textarea
+                rows="3"
+                placeholder="Message"
+                class="rounded-lg border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 px-4 py-3 text-base text-gray-800 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary transition resize-none"
+            ></textarea>
+            <button
+                type="button"
+                class="mt-2 rounded-lg bg-primary text-white font-semibold py-3 shadow hover:bg-blue-700 transition"
+            >Send Message</button>
+        </form>
+    </div>
+</section>
+        <section id="about" class="about-section">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="About Us Icon">
+            <h2>About <span class="accent">EpicBuyHub</span></h2>
+            <p>EpicBuyHub is your trusted destination for stylish essentials at unbeatable prices. We believe in making shopping effortless, enjoyable, and affordable for everyone. Discover curated picks, fresh drops, and exclusive deals—all with fast shipping and friendly support.</p>
+        </section>
+        <!-- Footer -->
+        <footer id="footer" class="section-wrapper alt">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div>
+                        <div class="text-2xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">EpicBuyHub</div>
+                        <p class="mt-3 text-sm text-gray-600 dark:text-gray-300">Your destination for stylish essentials at unbeatable prices.</p>
+                    </div>
+                    <div>
+                        <div class="font-semibold mb-2">Product</div>
+                        <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-300">
+                            <li>Our Design</li>
+                            <li>Theme</li>
+                            <li>Best Price</li>
+                            <li>Quality</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="font-semibold mb-2">Quality</div>
+                        <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-300">
+                            <li>Focus</li>
+                            <li>Price</li>
+                            <li>Service</li>
+                            <li>Review</li>
+                            <li>Offers</li>
+                        </ul>
+            </div>
+                    <div>
+                        <div class="font-semibold mb-2">Address</div>
+                        <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-300">
+                            <li>Brooklyn</li>
+                            <li>New York City</li>
+                            <li>USA</li>
+                        </ul>
+            </div>
+            </div>
+                <div class="mt-10 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                    <span>© <span id="year"></span> EpicBuyHub. All rights reserved.</span>
+                    <div class="mt-2 sm:mt-0">Built with ❤️ using Tailwind CSS</div>
+            </div>
+        </div>
+        </footer>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
