@@ -119,7 +119,7 @@ section {
 
 /* Responsive container */
 .container, .max-w-7xl, .max-w-screen-xl {
-  max-width: 1280px;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.5rem;
@@ -207,8 +207,8 @@ section {
 
 .search{flex:1; display:flex; justify-content:center}
 .search input[type="search"]{
-  width:100%;
-  max-width:640px;
+  height: auto;
+  max-width:100%;
   padding:12px 48px 12px 44px;
   border-radius:40px;
   border:1px solid var(--neutral-200);
@@ -323,6 +323,7 @@ section {
   line-height: 1.2;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1229,5 +1230,432 @@ nav.sticky {
   background: linear-gradient(90deg, #f472b6 0%, #a78bfa 100%);
   border-radius: 2px;
   opacity: 0.85;
+}
+
+/* Cart Component Styles */
+#cart-drawer {
+  max-width: 100vw;
+}
+
+#cart-drawer::-webkit-scrollbar {
+  width: 6px;
+}
+
+#cart-drawer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#cart-drawer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+#cart-drawer::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.dark #cart-drawer::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark #cart-drawer::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark #cart-drawer::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Line clamp utility for product titles */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Cart item animations */
+@keyframes cartItemSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+#cart-items > div {
+  animation: cartItemSlideIn 0.3s ease-out;
+}
+
+/* Cart overlay backdrop blur effect */
+#cart-overlay {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Quantity button focus states */
+.qty-inc:focus,
+.qty-dec:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Remove button focus state */
+.remove:focus {
+  outline: 2px solid #dc2626;
+  outline-offset: 2px;
+}
+
+/* Checkout button disabled state */
+#checkout-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  #cart-drawer {
+    width: 100vw;
+  }
+  
+  #cart-items {
+    padding: 1rem;
+  }
+}
+
+/* Smooth scroll for cart items */
+#cart-items {
+  scroll-behavior: smooth;
+}
+
+/* Cart item hover effect enhancement */
+#cart-items > div:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+/* Print styles for order success page */
+@media print {
+  body {
+    background: white;
+  }
+  
+  nav, footer, button, #print-order {
+    display: none !important;
+  }
+  
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  
+  .bg-white, .bg-slate-800 {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+  
+  .text-slate-900, .text-white, .text-gray-600, .text-gray-400 {
+    color: black !important;
+  }
+}
+
+/* Product Card Button State Transitions */
+.add-to-cart {
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.add-to-cart.quantity-updated {
+  position: relative;
+}
+
+.add-to-cart.animate-pulse {
+  animation: buttonPulse 0.6s ease-in-out;
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Ensure button maintains proper styling during state changes */
+.add-to-cart span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Green state for added items */
+.add-to-cart.bg-green-600 {
+  background-color: #16a34a !important;
+}
+
+.add-to-cart.bg-green-600:hover {
+  background-color: #15803d !important;
+}
+
+/* Blue state for default */
+.add-to-cart.bg-blue-600 {
+  background-color: #2563eb !important;
+}
+
+.add-to-cart.bg-blue-600:hover {
+  background-color: #1d4ed8 !important;
+}
+
+/* Header/Navigation Improvements */
+nav {
+  min-height: 64px;
+}
+
+/* Logo responsive sizing */
+.logo h1 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Search bar improvements */
+#q {
+  min-width: 0;
+}
+
+#q:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Mobile menu smooth transitions */
+#mobile-menu {
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+}
+
+#mobile-menu:not(.hidden) {
+  opacity: 1;
+}
+
+/* Header button hover states */
+nav button {
+  min-width: fit-content;
+}
+
+/* Ensure header items don't shrink too much on small screens */
+@media (max-width: 640px) {
+  .logo h1 {
+    font-size: 1rem;
+  }
+  
+  nav .flex-shrink-0 {
+    flex-shrink: 0;
+  }
+  
+  /* Compact search on very small screens */
+  #q {
+    font-size: 0.75rem;
+    padding-left: 2rem;
+    padding-right: 2.5rem;
+  }
+  
+  /* Ensure icons are visible on mobile */
+  nav button i {
+    font-size: 1rem;
+  }
+}
+
+/* Medium screens - better spacing */
+@media (min-width: 640px) and (max-width: 1024px) {
+  nav {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Large screens - optimal spacing */
+@media (min-width: 1024px) {
+  nav .max-w-7xl {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Header alignment fixes */
+nav .flex {
+  align-items: center;
+}
+
+/* Search bar container - prevent overflow */
+nav .flex-1 {
+  min-width: 0;
+  flex: 1 1 0%;
+}
+
+/* Theme toggle button responsive text */
+@media (max-width: 640px) {
+  .theme-toggle-btn {
+    min-width: 2.5rem;
+    padding: 0.5rem;
+  }
+}
+
+/* Cart button badge positioning */
+#cart-count {
+  line-height: 1;
+  font-weight: 600;
+}
+
+/* Login button icon spacing */
+#login i {
+  font-size: 0.875rem;
+}
+
+/* Ensure consistent vertical alignment */
+nav .items-center {
+  align-items: center;
+}
+
+/* Search input focus ring */
+#q:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Mobile menu link spacing */
+#mobile-menu a {
+  padding: 0.5rem 0;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+#mobile-menu a:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+  border-radius: 0.375rem;
+  padding-left: 0.5rem;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+/* Header search button hover effect */
+nav button[aria-label="Search"]:hover {
+  transform: scale(1.05);
+}
+
+/* Prevent text wrapping in header */
+nav .logo,
+nav button {
+  white-space: nowrap;
+}
+
+/* Responsive gap adjustments */
+@media (max-width: 480px) {
+  nav .gap-2 {
+    gap: 0.5rem;
+  }
+  
+  nav .gap-1\.5 {
+    gap: 0.375rem;
+  }
+}
+
+/* Search bar responsive width */
+@media (max-width: 768px) {
+  #q {
+    max-width: 100%;
+  }
+}
+
+/* Ensure header height consistency */
+nav > div > div {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+/* Search Functionality Styles */
+.product-card {
+  transition: opacity 0.3s ease, transform 0.3s ease, display 0.3s ease;
+}
+
+.product-card.hidden {
+  display: none !important;
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.product-section {
+  transition: opacity 0.3s ease;
+}
+
+/* Search input clear button */
+#search-clear {
+  z-index: 10;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#search-clear:hover {
+  transform: scale(1.1);
+}
+
+/* Search no results animation */
+#search-no-results {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth product card animations */
+.product-card {
+  animation: productCardFadeIn 0.4s ease-out;
+}
+
+@keyframes productCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Search input focus enhancements */
+#q:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Ensure search clear button is properly positioned */
+#search-clear {
+  right: 4.5rem;
+}
+
+@media (max-width: 640px) {
+  #search-clear {
+    right: 3rem;
+  }
+  
+  /* Adjust search input padding when clear button is visible */
+  #q:not(:placeholder-shown) {
+    padding-right: 2.5rem;
+  }
 }
 

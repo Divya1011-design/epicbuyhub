@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed — EpicBuyHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        (function(){
+            try{
+                const saved = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved === 'dark' || (!saved && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }catch(e){/* ignore */}
+        })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/f30fac2c61.js" crossorigin="anonymous"></script>
+</head>
+<body class="site-bg">
+    <div class="container min-h-screen font-sans">
+        <!-- Navigation -->
+        <nav class="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-4">
+                <div class="logo shrink-0">
+                    <a href="index.html" class="brand-link" aria-label="EpicBuyHub Home">
+                        <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight" style="background:linear-gradient(90deg,var(--color-primary),var(--color-accent));-webkit-background-clip:text;background-clip:text;color:transparent;">EpicBuyHub</h1>
+                        <div class="text-xs font-light text-neutral-700 dark:text-neutral-200">Modern deals, everyday value</div>
+                    </a>
+                </div>
+                <div class="ml-auto flex items-center gap-2">
+                    <a href="index.html" class="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Continue Shopping</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+            <!-- Success Message -->
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 mb-6">
+                    <i class="fa-solid fa-check text-4xl text-green-600 dark:text-green-400"></i>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white font-poppins mb-4">Order Confirmed!</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400 mb-2">Thank you for your purchase</p>
+                <p class="text-sm text-gray-500 dark:text-gray-500">Order ID: <span id="order-id" class="font-mono font-semibold text-blue-600 dark:text-blue-400"></span></p>
+                <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">We've sent a confirmation email to <span id="order-email" class="font-semibold"></span></p>
+            </div>
+
+            <!-- Order Summary Card -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 sm:p-8 mb-8">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white font-poppins mb-6">Order Summary</h2>
+                
+                <!-- Order Items -->
+                <div id="order-items" class="space-y-4 mb-6">
+                    <!-- Items will be populated by JavaScript -->
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="border-t border-gray-200 dark:border-slate-700 pt-6 mb-6">
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white font-poppins mb-4">Shipping Address</h3>
+                    <div id="shipping-address" class="text-gray-600 dark:text-gray-400">
+                        <!-- Address will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="border-t border-gray-200 dark:border-slate-700 pt-6 mb-6">
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white font-poppins mb-4">Payment Method</h3>
+                    <div id="payment-method" class="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+                        <!-- Payment method will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Order Totals -->
+                <div class="border-t border-gray-200 dark:border-slate-700 pt-6">
+                    <div class="space-y-3 mb-4">
+                        <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <span>Subtotal</span>
+                            <span id="order-subtotal" class="font-medium">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <span>Shipping</span>
+                            <span id="order-shipping" class="font-medium">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <span>Tax</span>
+                            <span id="order-tax" class="font-medium">$0.00</span>
+                        </div>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-slate-700 pt-3 flex justify-between">
+                        <span class="text-xl font-bold text-slate-900 dark:text-white font-poppins">Total</span>
+                        <span id="order-total" class="text-2xl font-bold text-blue-600 dark:text-blue-400 font-poppins">$0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="index.html" 
+                    class="inline-flex items-center justify-center px-8 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-100 transition-all duration-200">
+                    <i class="fa-solid fa-shopping-bag mr-2"></i>
+                    Continue Shopping
+                </a>
+                <button id="print-order" 
+                    class="inline-flex items-center justify-center px-8 py-3 rounded-xl bg-white dark:bg-slate-700 border-2 border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-slate-600 transition-colors">
+                    <i class="fa-solid fa-print mr-2"></i>
+                    Print Order
+                </button>
+            </div>
+
+            <!-- Estimated Delivery -->
+            <div class="mt-12 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 text-center">
+                <i class="fa-solid fa-truck text-2xl text-blue-600 dark:text-blue-400 mb-3"></i>
+                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Estimated Delivery: <span id="delivery-date" class="font-semibold text-blue-600 dark:text-blue-400"></span>
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">You will receive a tracking number via email once your order ships.</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-200 dark:border-slate-700 mt-12 py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-600 dark:text-gray-400">
+                <p>© <span id="year"></span> EpicBuyHub. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="success.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout — EpicBuyHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        (function(){
+            try{
+                const saved = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved === 'dark' || (!saved && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }catch(e){/* ignore */}
+        })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/f30fac2c61.js" crossorigin="anonymous"></script>
+</head>
+<body class="site-bg">
+    <div class="container min-h-screen font-sans">
+        <!-- Navigation -->
+        <nav class="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800 shadow-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-4">
+                <div class="logo shrink-0">
+                    <a href="index.html" class="brand-link" aria-label="EpicBuyHub Home">
+                        <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight" style="background:linear-gradient(90deg,var(--color-primary),var(--color-accent));-webkit-background-clip:text;background-clip:text;color:transparent;">EpicBuyHub</h1>
+                        <div class="text-xs font-light text-neutral-700 dark:text-neutral-200">Modern deals, everyday value</div>
+                    </a>
+                </div>
+                <div class="ml-auto flex items-center gap-2">
+                    <a href="index.html" class="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">← Back to Shop</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <div class="mb-8">
+                <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white font-poppins mb-2">Checkout</h1>
+                <p class="text-gray-600 dark:text-gray-400">Complete your order below</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Checkout Form - Left Column (2/3 on large screens) -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 sm:p-8 mb-6">
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white font-poppins mb-6">Shipping Information</h2>
+                        <form id="checkout-form" class="space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="firstName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">First Name *</label>
+                                    <input type="text" id="firstName" name="firstName" required
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                                </div>
+                                <div>
+                                    <label for="lastName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Last Name *</label>
+                                    <input type="text" id="lastName" name="lastName" required
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address *</label>
+                                <input type="email" id="email" name="email" required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                            </div>
+
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                            </div>
+
+                            <div>
+                                <label for="address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Street Address *</label>
+                                <input type="text" id="address" name="address" required
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">City *</label>
+                                    <input type="text" id="city" name="city" required
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                                </div>
+                                <div>
+                                    <label for="state" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">State *</label>
+                                    <input type="text" id="state" name="state" required
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                                </div>
+                                <div>
+                                    <label for="zipCode" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">ZIP Code *</label>
+                                    <input type="text" id="zipCode" name="zipCode" required
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                                </div>
+                            </div>
+
+                            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 sm:p-8 mt-6">
+                                <h2 class="text-xl font-bold text-slate-900 dark:text-white font-poppins mb-6">Payment Method</h2>
+                                <div class="space-y-4">
+                                    <label class="flex items-center p-4 border-2 border-gray-200 dark:border-slate-600 rounded-lg cursor-pointer hover:border-blue-500 transition">
+                                        <input type="radio" name="paymentMethod" value="card" checked class="mr-4 w-5 h-5 text-blue-600 focus:ring-blue-500">
+                                        <div class="flex items-center gap-3">
+                                            <i class="fa-solid fa-credit-card text-2xl text-gray-600 dark:text-gray-400"></i>
+                                            <span class="font-medium text-gray-900 dark:text-white">Credit/Debit Card</span>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 dark:border-slate-600 rounded-lg cursor-pointer hover:border-blue-500 transition">
+                                        <input type="radio" name="paymentMethod" value="paypal" class="mr-4 w-5 h-5 text-blue-600 focus:ring-blue-500">
+                                        <div class="flex items-center gap-3">
+                                            <i class="fa-brands fa-paypal text-2xl text-blue-600"></i>
+                                            <span class="font-medium text-gray-900 dark:text-white">PayPal</span>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 dark:border-slate-600 rounded-lg cursor-pointer hover:border-blue-500 transition">
+                                        <input type="radio" name="paymentMethod" value="cod" class="mr-4 w-5 h-5 text-blue-600 focus:ring-blue-500">
+                                        <div class="flex items-center gap-3">
+                                            <i class="fa-solid fa-money-bill text-2xl text-gray-600 dark:text-gray-400"></i>
+                                            <span class="font-medium text-gray-900 dark:text-white">Cash on Delivery</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <p class="mt-4 text-sm text-gray-500 dark:text-gray-400 italic">* Payment processing is simulated. No actual charges will be made.</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Order Summary - Right Column (1/3 on large screens) -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 sticky top-24">
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white font-poppins mb-6">Order Summary</h2>
+                        
+                        <!-- Cart Items -->
+                        <div id="checkout-items" class="space-y-4 mb-6 max-h-96 overflow-y-auto">
+                            <!-- Items will be populated by JavaScript -->
+                        </div>
+
+                        <!-- Order Totals -->
+                        <div class="border-t border-gray-200 dark:border-slate-700 pt-4 space-y-3">
+                            <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                                <span>Subtotal</span>
+                                <span id="checkout-subtotal" class="font-medium">$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                                <span>Shipping</span>
+                                <span class="font-medium">$5.99</span>
+                            </div>
+                            <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                                <span>Tax</span>
+                                <span id="checkout-tax" class="font-medium">$0.00</span>
+                            </div>
+                            <div class="border-t border-gray-200 dark:border-slate-700 pt-3 flex justify-between">
+                                <span class="text-lg font-bold text-slate-900 dark:text-white font-poppins">Total</span>
+                                <span id="checkout-total" class="text-xl font-bold text-blue-600 dark:text-blue-400 font-poppins">$0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Place Order Button -->
+                        <button id="place-order-btn" type="submit" form="checkout-form"
+                            class="w-full mt-6 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 px-6 py-4 text-white font-semibold text-base shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-100 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span class="flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-lock"></i>
+                                Place Order
+                            </span>
+                        </button>
+
+                        <p class="mt-4 text-xs text-center text-gray-500 dark:text-gray-400">
+                            By placing your order, you agree to our Terms of Service and Privacy Policy
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-200 dark:border-slate-700 mt-12 py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-600 dark:text-gray-400">
+                <p>© <span id="year"></span> EpicBuyHub. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="checkout.js"></script>
+</body>
+</html>
+
